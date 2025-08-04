@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MoMentor Room</title>
+</head>
+<body>
+  <h1>Welcome to MoMentor Live Room</h1>
+  <textarea id="log" cols="100" rows="20" readonly></textarea><br>
+  <input type="text" id="msg" placeholder="Write a message">
+  <button onclick="send()">Send</button>
+  <script>
+    const log = document.getElementById("log");
+    const ws = new WebSocket("wss://" + location.host);
+    ws.onmessage = (msg) => log.value += '\n' + msg.data;
+    function send() {
+      const text = document.getElementById("msg").value;
+      ws.send(text);
+      document.getElementById("msg").value = '';
+    }
+  </script>
+</body>
+</html>
