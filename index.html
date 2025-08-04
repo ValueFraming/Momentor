@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MoMentor Secure Room</title>
+</head>
+<body>
+  <h1>Join a Secure Room</h1>
+  <input id="roomInput" placeholder="Enter Room ID" />
+  <input id="passInput" placeholder="Password (optional)" type="password" />
+  <button onclick="joinRoom()">Join</button>
+  <div id="status"></div>
+
+  <script>
+    function joinRoom() {
+      const room = document.getElementById('roomInput').value;
+      const pass = document.getElementById('passInput').value;
+      const ws = new WebSocket(`wss://${location.host}/ws?room=${room}&pass=${pass}`);
+
+      ws.onopen = () => document.getElementById("status").innerText = "Connected!";
+      ws.onerror = () => document.getElementById("status").innerText = "Connection failed.";
+      ws.onmessage = msg => alert("Message: " + msg.data);
+    }
+  </script>
+</body>
+</html>
